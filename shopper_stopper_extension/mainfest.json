@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Shopper Stopper",
+    "version": "1.1.0",
+    "description": "Pause impulse online purchases with AI-powered detection.",
+    "permissions": ["storage", "activeTab", "scripting", "downloads"],
+    "host_permissions": [
+        "https://*.amazon.com/*",
+        "https://*.target.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.amazon.com/*",
+                "https://*.target.com/*"
+            ],
+            "js": ["libs/genai.js", "content.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}
