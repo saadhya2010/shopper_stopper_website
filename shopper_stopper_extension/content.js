@@ -41,6 +41,13 @@ function getCartSubtotal() {
     return "Price Not Found";
 }
 
+//looking for impulse keywords on the site that trigger impulse shopping
+function getMarketingTriggers() {
+    const pageText = document.body.innerText;
+    const triggers = ["sale", "limited time", "clearance", "limited stock", "only", "deal"];
+    return triggers.filter(word => pageText.toLowerCase().includes(word));
+}
+
 //gemini API call
 async function getAIAnalysis(itemName, price) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
@@ -52,7 +59,8 @@ async function getAIAnalysis(itemName, price) {
                 text: `You are an honest financial coach. The user is looking at "${itemName}" for $${price}. 
                 Give a [Impulse Score: X/10] and a witty, savage 2-sentence roast about why this is a waste of money with actual psychological, expert-level insights about this impulse purchase.
                 Consider the time of day: "${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}".
-                Also consider the time spent on the site: "${timeString}".`
+                Also consider the time spent on the site: "${timeString}", as well as key trigger words that may be present 
+                on the site: "${getMarketingTriggers()}".`
             }]
         }]
     };
@@ -153,8 +161,6 @@ document.addEventListener("click", function(event) {
     if (isCartBtn) {
         event.preventDefault();
         event.stopPropagation();
-        
-        // Clean up title (removes "Amazon.com: ")
         const itemName = document.title.split(':')[0].trim();
         showPopup(itemName, getItemPrice(), getCartSubtotal(), btn);
     }
