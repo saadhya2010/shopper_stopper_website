@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyDNWWnmoZqcIKYqSyryNMpnlRiizJqF6k8";
+const API_KEY = "enter-api-key";
 const pageLoadTime = Date.now();
 let popupIsOpen = false;
 let isBypassing = false;
